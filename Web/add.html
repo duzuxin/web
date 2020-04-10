@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>用戶添加</title>
+		<script src="lib/layui/layui.js"></script>
+		<link rel="stylesheet" href="lib/layui/css/layui.css" />
+		<script type="text/javascript" src="globalDate.js" ></script>
+		<script>
+			 var token="9408c184-3b43-4175-a925-ea64f3d5563a";
+			 var url=globalDate.server+"CreateUser";
+			  layui.use(["form","jquery","laydate"],function(){
+			  	    var form=layui.form;
+			  	    var $=layui.jquery;
+			  	    var laydate=layui.laydate;			  	   
+                    laydate.render({
+                    	 elem:"#beginDate"
+                    });
+                    laydate.render({
+                    	 elem:"#endDate"
+                    });
+                   
+                    form.on("submit(tijiao)",function(data){
+                    $.post(url,{
+                    "loginName":$("#un").val(),
+			  	    "pwd":$("#pwd").val(),
+			  	    "email":$("#email").val(),
+			  	    "mtel":$("#mtel").val(),
+                    "token":token
+                    	 },function(r){
+                    	 	if(r.success){
+                    	 		 alert("添加成功");
+                    	 		 window.location.href="sys/yh.html";
+                    	 	}
+                    	 },"json")
+                    });
+                    $("#fanhui").click(function(){
+                    	 window.location.href="sys/yh.html";
+                    });
+			  });
+			  
+		</script>
+	</head>
+	<body>
+		<form class="layui-form"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+             <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-block">
+                <input type="text" name="un" id="un" value="" lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+             </div>
+             <div class="layui-form-item">
+                <label class="layui-form-label">用户密码</label>
+                <div class="layui-input-block">
+                <input type="password" name="pwd" id="pwd" value=""  lay-verify="password" autocomplete="off" class="layui-input">
+                </div>
+             </div>
+             <div class="layui-form-item">
+                <label class="layui-form-label">用户邮箱</label>
+                <div class="layui-input-block">
+                <input type="text" name="email" id="email" value="" lay-verify="email" autocomplete="off" class="layui-input">
+                </div>
+             </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">手机号</label>
+                <div class="layui-input-block">
+                <input type="text" name="mtel" id="mtel" value="" lay-verify="phone"  autocomplete="off" class="layui-input">
+                </div>
+             </div>
+             <div class="layui-form-item">
+               <div class="layui-input-block">
+               	<button class="layui-btn" type="button" id="tijiao" lay-submit lay-filter="tijiao">提交</button>
+                <button class="layui-btn" type="button" id="fanhui" lay-submit lay-filter="fanhui">返回</button>
+               </div>
+             </div>
+        </form>
+	</body>
+</html>

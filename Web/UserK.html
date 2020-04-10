@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="lib/css/layui.css" />
+		<script type="text/javascript" src="lib/layui/layui.js" ></script>
+		<script type="text/javascript" src="globalDate.js" ></script>
+	</head>
+	<body>
+		<div id="test1"></div>
+		<!--------------------------------------------------------------------------------------->
+		<script type="text/javascript">
+			  
+			    layui.use(['transfer',"jquery"], function(){
+                var transfer = layui.transfer;
+                var $=layui.jquery;
+                //获取左侧数据
+                $.post(globalDate.server+"GetRolesAll",{
+                	"token":globalDate.myToken
+                },function(data){
+                	
+                    var rui = data.map(function(obj){
+                    	return {
+                    		"value":obj.Id,
+                    		"title":obj.Name
+                    	}
+                    });
+                	
+                	     //获取右侧用户角色
+                      var rData=new Array();
+                      var id=window.sessionStorage.getItem("id");
+                      $.post(globalDate.server+"GetRolesByUserIdLayUI",{
+                	  "uId":id,
+                	  "token":globalDate.myToken
+                      },function(r){
+                	  if(r.count>0){
+                	  	 for(var i=0;i<r.data.length;i++){
+                	  	 	 rData.push(r.data[i].Id);
+                	  	 }
+                	  }
+                	   transfer.render({
+                	 	elem: '#test1',
+                	 	title:["系统所有角色","当前用户角色"],
+                	 	data: rui,
+                	 	value:rData,
+                	 	//角色添加
+                 onchange:function(obj,index){
+                	 if(index==0){
+                	 	for(var i=0;i<obj.length;i++){
+                	 		  $.post(globalDate.server+"AddUserToRole",{
+                	 		  	"uId":id,
+                	 		  	"rId":obj[i].value,
+                	 		  	"token":globalDate.myToken
+                	 		  },function(r){
+                	 		  	 if(r.success){
+                	 		  	 	 alert("添加成功");
+                	 		  	 }else{
+                	 		  	 	 alert("添加失败");
+                	 		  	 }
+                	 		  },"json");
+                	 	}
+                	 }else{
+                	 	   for(var i=0;i<obj.length;i++){
+                	 		  $.post(globalDate.server+"RemoveUserFromRole",{
+                	 		  	"uId":id,
+                	 		  	"rId":obj[i].value,
+                	 		  	"token":globalDate.myToken
+                	 		  },function(r){
+                	 		  	 if(r.success){
+                	 		  	 	 alert("删除成功");
+                	 		  	 }else{
+                	 		  	 	alert("删除失败");
+                	 		  	 }
+                	 		  },"json");
+                	 	}
+                	 }
+                }                
+                	 });
+
+                },"json");                         	 	 	 	    
+                },"json");
+               
+                     });
+                 
+		</script>
+	</body>
+</html>

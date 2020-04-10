@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>用户详情</title>
+		<script src="lib/layui/layui.js"></script>
+		<link rel="stylesheet" href="lib/layui/css/layui.css" />
+		<script>
+			
+			  layui.use(["form","jquery"],function(){
+			  	    var form=layui.form;
+			  	    var $=layui.jquery;
+			  	    var z=window.sessionStorage.getItem("z");
+			  	    var zz=JSON.parse(z);
+			  	    $("#un").val(zz.LoginName);
+			  	    $("#email").val(zz.ProtectEMail);
+			  	    $("#mtel").val(zz.ProtectMTel);
+			  	    $("#islock").val(zz.IsLockout);
+			  	    $("#beginDate").val(zz.CreateTime);
+			  	    $("#endDate").val(zz.LastLoginTime);
+			  	    form.on("submit(fanhui)",function(data){
+			  	    window.location.href="sys/yh.html";
+			  });
+			   
+			  });
+			  
+		</script>
+	</head>
+	<body>
+		<form class="layui-form"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+             <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-block">
+                <input type="text" name="un" id="un" readonly="readonly" autocomplete="off" class="layui-input">
+                </div>
+             </div>
+             <div class="layui-form-item">
+                <label class="layui-form-label">用户邮箱</label>
+                <div class="layui-input-block">
+                <input type="text" name="email" id="email" value="" readonly="readonly" autocomplete="off" class="layui-input">
+                </div>
+             </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">手机号</label>
+                <div class="layui-input-block">
+                <input type="text" name="mtel" id="mtel" value="" readonly="readonly" autocomplete="off" class="layui-input">
+                </div>
+             </div>
+               <div class="layui-form-item">
+                <label class="layui-form-label">是否锁定</label>
+                <div class="layui-input-block">
+                <input type="text" name="islock" id="islock" value="" readonly="readonly" autocomplete="off" class="layui-input">
+                </div>
+             </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">创建时间</label>
+                <div class="layui-input-block">
+                <input type="text" name="beginDate" id="beginDate" value="" readonly="readonly" autocomplete="off" class="layui-input">
+                </div>
+             </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">最后登录时间</label>
+                <div class="layui-input-block">
+                <input type="text" name="endDate" id="endDate" value="" readonly="readonly" autocomplete="off" class="layui-input">
+                </div>
+             </div>
+             <div class="layui-form-item">
+               <div class="layui-input-block">
+                   <button class="layui-btn" type="button" id="fanhui" lay-submit lay-filter="fanhui">返回</button>
+               </div>
+             </div>
+        </form>
+	</body>
+</html>

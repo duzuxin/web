@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>用户更新</title>
+		<script src="lib/layui/layui.js"></script>
+		<link rel="stylesheet" href="lib/layui/css/layui.css" />
+		<script type="text/javascript" src="globalDate.js" ></script>
+		<script>
+			 var token=globalDate.myToken;
+			 var url=globalDate.server+"UpdateUser";
+			  layui.use(["form","jquery"],function(){
+			  	    var form=layui.form;
+			  	    var $=layui.jquery;
+			  	    var z=window.sessionStorage.getItem("z");
+			  	    var name=window.sessionStorage.getItem("uname");
+			  	    var zz=JSON.parse(z);
+			  	    $("#un").val(zz.LoginName);
+			  	    $("#email").val(zz.ProtectEMail);
+			  	    $("#mtel").val(zz.ProtectMTel);
+			  	    form.on("submit(fanhui)",function(data){
+			  	    window.location.href="sys/yh.html";
+			                                              });
+			        form.on("submit(tijiao)",function(data){
+			        $.post(url,{
+			        "loginName":$("#un").val(),
+			  	    "email":$("#email").val(),
+			  	    "mtel":$("#mtel").val(),
+			  	    "token":token
+			        },function(r){
+			        	 if(r.success){
+			        	 	 alert("更新成功");
+			        	 	 window.location.href="sys/yh.html";
+			        	 }
+			        },"json");
+			        })
+			        
+			   
+			  });
+			  
+		</script>
+	</head>
+	<body>
+		<form class="layui-form"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+             <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-block">
+                <input type="text" name="un" id="un" autocomplete="off" class="layui-input">
+                </div>
+             </div>
+             <div class="layui-form-item">
+                <label class="layui-form-label">用户邮箱</label>
+                <div class="layui-input-block">
+                <input type="text" name="email" id="email"  autocomplete="off" class="layui-input">
+                </div>
+             </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">手机号</label>
+                <div class="layui-input-block">
+                <input type="text" name="mtel" id="mtel"  autocomplete="off" class="layui-input">
+                </div>
+             </div>
+               
+             <div class="layui-form-item">
+               <div class="layui-input-block">
+               	<button class="layui-btn" type="button" id="tijiao" lay-submit lay-filter="tijiao">提交</button>
+                   <button class="layui-btn" type="button" id="fanhui" lay-submit lay-filter="fanhui">返回</button>
+               </div>
+             </div>
+        </form>
+	</body>
+</html>
